@@ -4,10 +4,17 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 lerna-debug.log*
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# build output
+dist/
+
+# generated types
+.astro/
 
 # Runtime data
 pids
@@ -71,6 +78,7 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
+.env.production
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -102,3 +110,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# macOS-specific files
+.DS_Store

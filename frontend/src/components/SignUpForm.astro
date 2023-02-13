@@ -1,0 +1,77 @@
+---
+import { ups } from "./main";
+
+export interface Props {
+  action: string;
+}
+
+const { action } = Astro.props;
+---
+
+<form id="form" action={action}>
+  <input type="text" name="username" placeholder="username" />
+  <input type="password" name="password" placeholder="password" />
+  <div class="form-buttons">
+    <button type="reset">Reset</button>
+    <button type="submit">Sign Up</button>
+  </div>
+</form>
+
+<script is:inline src="../assets/js/main.js"></script>
+<script>
+  flag();
+</script>
+<script>
+  const form = document.getElementById("form");
+
+  form.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+
+    const formData = new FormData(form);
+    const payload = {
+      username: formData.get("username"),
+      password: formData.get("password"),
+    };
+
+    fetch(form.action, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch(function (err) {
+        console.log("Fetch Error :-S", err);
+      });
+  });
+</script>
+
+<style>
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  form input {
+    padding: 5px;
+    margin: 10px;
+  }
+  .form-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: space-between;
+  }
+
+  .form-buttons button {
+    padding: 3px;
+    margin: 10px;
+    min-width: 75px;
+  }
+</style>

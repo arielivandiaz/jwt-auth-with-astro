@@ -1,0 +1,78 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+---
+
+<Layout title="Welcome to Astro." navbarActive="users">
+  <main>
+    <ul role="list" class="link-card-grid">
+      <Card
+        href="https://docs.astro.build/"
+        title="Documentation"
+        body="Learn how Astro works and explore the official API docs."
+      />
+    </ul>
+  </main>
+</Layout>
+
+<style></style>
+
+<script>
+  const parseJwt = (token) => {
+    try {
+      return JSON.parse(atob(token.split(".")[1]));
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const authToken = localStorage.getItem("userToken");
+  if (authToken) {
+    const decodedJwt = parseJwt(authToken);
+    console.log(decodedJwt);
+    if (decodedJwt.exp * 1000 < Date.now()) {
+      console.log("Token Expirado");
+    } else {
+      fetch("http://localhost:4747/users", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("userToken") || "",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch(function (err) {
+          console.log("Fetch Error :-S", err);
+        });
+    }
+  }
+</script>
+
+<style>
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  form input {
+    padding: 5px;
+    margin: 10px;
+  }
+  .form-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: space-between;
+  }
+
+  .form-buttons button {
+    padding: 3px;
+    margin: 10px;
+    min-width: 75px;
+  }
+</style>

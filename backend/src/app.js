@@ -5,7 +5,7 @@ import express from 'express';
 import logger from 'morgan';
 import passport from 'passport';
 import './services/passport.service.js';
-
+import cors from 'cors';
 import indexRouter from './routes/index.route.js';
 
 const app = express();
@@ -15,6 +15,7 @@ app.use(passport.initialize());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 app.use('/', indexRouter);
 
